@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Settings\Pagination;
 use App\Models\Donation;
 use App\Services\DonationsProcessor;
 use Illuminate\Http\Client\ConnectionException;
@@ -33,13 +34,15 @@ class IndexDonations extends Component
         DonationsProcessor::store($data['donations'], $data['continuation_token']);
         $this->dispatch('fetch-donations')
              ->to(TotalDonations::class);
+        $this->dispatch('unprocessed-donation-update')
+             ->to(UnprocessedDonations::class);
     }
 
     public function render(): View
     {
         return view('livewire.index-donations', [
             'donations' => Donation::orderBy('timestamp', 'desc')
-                                   ->paginate(20),
+                                   ->paginate(auth()->user()->pagination_setting->value ?? 20),
         ]);
     }
 
@@ -50,7 +53,7 @@ class IndexDonations extends Component
         } else {
             $donation->update(['processed' => true]);
         }
-        $this->dispatch('donation-processed')
+        $this->dispatch('unprocessed-donation-update')
              ->to(UnprocessedDonations::class);
 
     }

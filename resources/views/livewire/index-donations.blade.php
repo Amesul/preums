@@ -2,7 +2,7 @@
     use Carbon\Carbon;
 @endphp
 
-<div class="px-4 sm:px-6 lg:px-8" wire:poll.10s="refresh">
+<div class="px-4 sm:px-6 lg:px-8" wire:poll.20s="refresh">
     <div class="flow-root">
         <div class="-mx-4 -my-2 sm:-mx-6 lg:-mx-8">
             <div class="inline-block min-w-full py-2 align-middle">
