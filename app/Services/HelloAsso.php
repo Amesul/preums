@@ -32,7 +32,7 @@ class HelloAsso
                 'refresh_token' => $res['refresh_token']
             ]);
             return $token;
-        } elseif ($res->status() === 400) {
+        } elseif ($res->status() === 400 || $res->status() === 403) {
             $token?->delete();
             return self::getToken();
         } else {
