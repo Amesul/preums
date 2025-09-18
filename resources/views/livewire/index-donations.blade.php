@@ -31,21 +31,25 @@
                     </thead>
                     <tbody>
                     @foreach($donations as $donation)
-                        <tr>
-                            <td class="{{ $donation->processed ? 'text-gray-900/25 dark:text-white/25 bg-gray-200/10' : 'text-gray-900 dark:text-white' }} border-b border-gray-200 py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap  sm:pl-6 lg:pl-8 dark:border-white/10">
+                        <tr class="hover:bg-gray-300/10">
+                            <td wire:click="processDonation({{$donation->id}})"
+                                class="{{ $donation->processed ? 'text-gray-900/25 dark:text-white/25 bg-gray-200/10' : 'text-gray-900 dark:text-white' }} border-b border-gray-200 py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap  sm:pl-6 lg:pl-8 dark:border-white/10">
                                 {{ Carbon::parse($donation->timestamp)->translatedFormat('D \à H:i') }}                        </td>
-                            <td class="{{ $donation->processed ? 'text-gray-600/25 dark:text-gray-300/25 bg-gray-200/10' : 'text-gray-600 dark:text-gray-300' }} border-b border-gray-200 px-3 py-4 text-sm whitespace-nowrap  sm:table-cell dark:border-white/10">
+                            <td wire:click="processDonation({{$donation->id}})"
+                                class="{{ $donation->processed ? 'text-gray-600/25 dark:text-gray-300/25 bg-gray-200/10' : 'text-gray-600 dark:text-gray-300' }} border-b border-gray-200 px-3 py-4 text-sm whitespace-nowrap  sm:table-cell dark:border-white/10">
                                 {{ $donation->username }}
                             </td>
-                            <td class="{{ $donation->processed ? 'text-gray-600/25 dark:text-gray-300/25 bg-gray-200/10' : 'text-gray-600 dark:text-gray-300' }} border-b border-gray-200 px-3 py-4 text-sm whitespace-nowrap  lg:table-cell dark:border-white/10">
+                            <td wire:click="processDonation({{$donation->id}})"
+                                class="{{ $donation->processed ? 'text-gray-600/25 dark:text-gray-300/25 bg-gray-200/10' : 'text-gray-600 dark:text-gray-300' }} border-b border-gray-200 px-3 py-4 text-sm whitespace-nowrap  lg:table-cell dark:border-white/10">
                                 {{ $donation->amount }} €
                             </td>
-                            <td class="{{ $donation->processed ? 'text-gray-600/25 dark:text-gray-300/25 bg-gray-200/10' : 'text-gray-600 dark:text-gray-300' }} border-b border-gray-200 px-3 py-4 text-sm dark:border-white/10">
+                            <td wire:click="processDonation({{$donation->id}})"
+                                class="{{ $donation->processed ? 'text-gray-600/25 dark:text-gray-300/25 bg-gray-200/10' : 'text-gray-600 dark:text-gray-300' }} border-b border-gray-200 px-3 py-4 text-sm dark:border-white/10">
                                 {{ $donation->message }}
                             </td>
                             <td class="{{ $donation->processed ? 'text-gray-600/25 dark:text-gray-300/25 bg-gray-200/10' : 'text-gray-600 dark:text-gray-300' }} border-b border-gray-200 py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-8 lg:pr-8 dark:border-white/10">
                                 <flux:button icon="check-circle" variant="subtle" size="xs"
-                                             wire:click="processDonation({{ $donation->id }})"/>
+                                             wire:click="processDonation({{ $donation->id }}, true)"/>
                             </td>
                         </tr>
                     @endforeach

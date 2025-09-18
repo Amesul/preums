@@ -3,7 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Donation;
-use App\Service\DonationsProcessor;
+use App\Services\DonationsProcessor;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -14,17 +14,44 @@ class IndexDonations extends Component
 {
     use WithPagination, WithoutUrlPagination;
 
+    /**
+     * @throws ConnectionException
+     */
+    public function mount(): void
+    {
+        $this->processDonations();
+    }
+
+    /**
+     * @return void
+     * @throws ConnectionException
+     */
+    protected function processDonations(): void
+    {
+        $data = DonationsProcessor::fetch();
+        DonationsProcessor::store($data['donations'], $data['continuation_token']);
+        $this->dispatch('fetch-donations')
+             ->to(TotalDonations::class);
+    }
+
     public function render(): View
     {
         return view('livewire.index-donations', [
-            'donations' => Donation::orderBy('timestamp', 'desc')->paginate(20),
+            'donations' => Donation::orderBy('timestamp', 'desc')
+                                   ->paginate(20),
         ]);
     }
 
-    public function processDonation(Donation $donation): void
+    public function processDonation(Donation $donation, bool $button = false): void
     {
-        $donation->update(['processed' => !$donation->processed]);
-        $this->dispatch('donation-processed')->to(UnprocessedDonations::class);
+        if ($button) {
+            $donation->update(['processed' => !$donation->processed]);
+        } else {
+            $donation->update(['processed' => true]);
+        }
+        $this->dispatch('donation-processed')
+             ->to(UnprocessedDonations::class);
+
     }
 
     /**
@@ -32,7 +59,6 @@ class IndexDonations extends Component
      */
     public function refresh(): void
     {
-        $data = DonationsProcessor::fetch();
-        DonationsProcessor::store($data['donations'], $data['continuation_token']);
+        $this->processDonations();
     }
 }
