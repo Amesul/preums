@@ -21,6 +21,7 @@ class TotalDonations extends Component
         return view('livewire.total-donations');
     }
 
+    #[On('fetch-donations')]
     public function refresh(): void
     {
         $this->total = Donation::sum('amount');
