@@ -12,7 +12,6 @@ return new class extends Migration {
             $table->string('access_token');
             $table->string('refresh_token');
             $table->timestamp('expires_at');
-            $table->boolean('invalidated');
             $table->timestamps();
         });
     }
