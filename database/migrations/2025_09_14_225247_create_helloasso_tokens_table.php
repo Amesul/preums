@@ -9,8 +9,8 @@ return new class extends Migration {
     {
         Schema::create('helloasso_tokens', function (Blueprint $table) {
             $table->id();
-            $table->string('access_token');
-            $table->string('refresh_token');
+            $table->text('access_token');
+            $table->text('refresh_token');
             $table->timestamp('expires_at');
             $table->timestamps();
         });

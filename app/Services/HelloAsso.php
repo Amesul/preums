@@ -57,7 +57,6 @@ class HelloAsso
                 'access_token'  => $jsonRes['access_token'],
                 'expires_at'    => now()->addSeconds($jsonRes['expires_in']),
                 'refresh_token' => $jsonRes['refresh_token'],
-                'invalidated'   => false,
             ];
             return HelloassoToken::create($token);
         } else {
