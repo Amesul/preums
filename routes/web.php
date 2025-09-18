@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\WidgetController;
 use App\Livewire\Settings\Appearance;
+use App\Livewire\Settings\Pagination;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +29,8 @@ Route::middleware(['auth'])
               ->name('settings.password');
          Route::get('settings/appearance', Appearance::class)
               ->name('settings.appearance');
+         Route::get('settings/pagination', Pagination::class)
+              ->name('settings.pagination');
 
          Route::get('donations', fn() => view('donations'))
               ->name('donations.index');
