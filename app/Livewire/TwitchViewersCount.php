@@ -2,14 +2,14 @@
 
 namespace App\Livewire;
 
-use App\Service\Twitch;
+use App\Services\Twitch;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
 class TwitchViewersCount extends Component
 {
-    public int $viewers = 0;
+    public int|string $viewers = 0;
 
     public function mount(): void
     {
