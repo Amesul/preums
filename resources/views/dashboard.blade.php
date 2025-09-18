@@ -1,23 +1,27 @@
 <x-layouts.app :title="__('Dashboard')">
     <div class="flex h-full w-full flex-1 grow flex-col gap-4 rounded-xl">
-        <div class="grid auto-rows-min gap-4 md:grid-cols-3  shrink-0 ">
+        <div class="grid shrink-0 auto-rows-min gap-4 md:grid-cols-3">
             <div
-                    class="relative overflow-hidden rounded-xl h-36 flex justify-around align-middle border border-neutral-200 dark:border-neutral-700">
-                <livewire:total-donations/>
+                class="relative flex h-36 justify-around overflow-hidden rounded-xl border border-neutral-400 bg-neutral-50 align-middle dark:border-neutral-700"
+            >
+                <livewire:total-donations />
             </div>
             <div
-                    class="relative overflow-hidden flex rounded-xl h-36 border border-neutral-200 dark:border-neutral-700">
-                <livewire:twitch-viewers-count/>
+                class="relative flex h-36 overflow-hidden rounded-xl border border-neutral-400 bg-neutral-50 dark:border-neutral-700"
+            >
+                <livewire:twitch-viewers-count />
             </div>
             <div
-                    class="relative overflow-hidden flex rounded-xl h-36 border border-neutral-200 dark:border-neutral-700">
-                <livewire:unprocessed-donations/>
+                class="relative flex h-36 overflow-hidden rounded-xl border border-neutral-400 bg-neutral-50 dark:border-neutral-700"
+            >
+                <livewire:unprocessed-donations />
             </div>
         </div>
-        <div class="relative  flex-1 w-full shrink-0 ">
+        <div class="relative w-full flex-1 shrink-0">
             <div
-                    class="absolute h-full w-full overflow-y-scroll hidden md:block rounded-xl border border-neutral-200 dark:border-neutral-700">
-                <livewire:index-donations/>
+                class="absolute hidden h-full w-full overflow-y-scroll rounded-xl border border-neutral-400 bg-neutral-50 md:block dark:border-neutral-700"
+            >
+                <livewire:index-donations />
             </div>
         </div>
     </div>
