@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Donation;
 use App\Services\DonationsProcessor;
 use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Support\Facades\App;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithoutUrlPagination;
