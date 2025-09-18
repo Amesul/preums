@@ -13,6 +13,12 @@
             >
                 {{ __("Appearance") }}
             </flux:navlist.item>
+            <flux:navlist.item
+                :href="route('settings.pagination')"
+                wire:navigate
+            >
+                {{ __("Donations") }}
+            </flux:navlist.item>
         </flux:navlist>
     </div>
 
