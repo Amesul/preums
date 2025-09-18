@@ -21,7 +21,7 @@ class UnprocessedDonations extends Component
         return view('livewire.unprocessed-donations');
     }
 
-    #[On('donation-processed')]
+    #[On('unprocessed-donation-update')]
     public function refreshTotal(): void
     {
         $this->total = Donation::where('processed', false)->count();
