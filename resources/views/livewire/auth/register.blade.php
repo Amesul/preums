@@ -1,54 +1,55 @@
 <div class="flex flex-col gap-6">
     <x-auth-header
-        :title="__('Create an account')"
-        :description="__('Enter your details below to create your account')"
+            :title="__('Create an account')"
+            :description="__('Enter your details below to create your account')"
     />
 
     <!-- Session Status -->
     <x-auth-session-status class="text-center" :status="session('status')" />
 
     <form method="POST" wire:submit="register" class="flex flex-col gap-6">
+        @csrf
         <!-- Name -->
         <flux:input
-            wire:model="name"
-            :label="__('Name')"
-            type="text"
-            required
-            autofocus
-            autocomplete="name"
-            :placeholder="__('Full name')"
+                wire:model="username"
+                :label="__('Username')"
+                type="text"
+                required
+                autofocus
+                autocomplete="username"
+                :placeholder="__('Username')"
         />
 
         <!-- Email Address -->
         <flux:input
-            wire:model="email"
-            :label="__('Email address')"
-            type="email"
-            required
-            autocomplete="email"
-            placeholder="email@example.com"
+                wire:model="email"
+                :label="__('Email address')"
+                type="email"
+                required
+                autocomplete="email"
+                placeholder="email@example.com"
         />
 
         <!-- Password -->
         <flux:input
-            wire:model="password"
-            :label="__('Password')"
-            type="password"
-            required
-            autocomplete="new-password"
-            :placeholder="__('Password')"
-            viewable
+                wire:model="password"
+                :label="__('Password')"
+                type="password"
+                required
+                autocomplete="new-password"
+                :placeholder="__('Password')"
+                viewable
         />
 
         <!-- Confirm Password -->
         <flux:input
-            wire:model="password_confirmation"
-            :label="__('Confirm password')"
-            type="password"
-            required
-            autocomplete="new-password"
-            :placeholder="__('Confirm password')"
-            viewable
+                wire:model="password_confirmation"
+                :label="__('Confirm password')"
+                type="password"
+                required
+                autocomplete="new-password"
+                :placeholder="__('Confirm password')"
+                viewable
         />
 
         <div class="flex items-center justify-end">
@@ -59,7 +60,7 @@
     </form>
 
     <div
-        class="space-x-1 text-center text-sm text-zinc-600 rtl:space-x-reverse dark:text-zinc-400"
+            class="space-x-1 text-center text-sm text-zinc-600 rtl:space-x-reverse dark:text-zinc-400"
     >
         <span>{{ __("Already have an account?") }}</span>
         <flux:link :href="route('login')" wire:navigate>
