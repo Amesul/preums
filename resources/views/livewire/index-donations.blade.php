@@ -1,6 +1,6 @@
 @php use Carbon\Carbon; @endphp
 
-<div class="px-4 sm:px-6 lg:px-8" wire:poll.30s="refresh">
+<div class="px-4 sm:px-6 lg:px-8" wire:poll.10s="refresh">
     <div class="flow-root">
         <div class="-mx-4 -my-2 sm:-mx-6 lg:-mx-8">
             <div class="inline-block min-w-full py-2 align-middle">
@@ -41,7 +41,7 @@
                             </td>
                             <td wire:click="processDonation({{$donation->id}})"
                                 class="{{ $donation->processed ? 'text-gray-600/25 dark:text-gray-300/25 bg-gray-200/10' : 'text-gray-600 dark:text-gray-300' }} border-b border-gray-200 px-3 py-4 text-sm whitespace-nowrap  lg:table-cell dark:border-white/10">
-                                {{ $donation->amount }} €
+                                {{ $donation->formatted_amount }}
                             </td>
                             <td wire:click="processDonation({{$donation->id}})"
                                 class="{{ $donation->processed ? 'text-gray-600/25 dark:text-gray-300/25 bg-gray-200/10' : 'text-gray-600 dark:text-gray-300' }} border-b border-gray-200 px-3 py-4 text-sm dark:border-white/10">

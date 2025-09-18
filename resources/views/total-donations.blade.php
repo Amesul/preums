@@ -3,9 +3,7 @@
 <head>
     @include('partials.head')
 </head>
-<body class="min-h-screen font-cabin-sketch text-3xl flex align-middle justify-center">
-<div wire:poll.keep-alive>
-    {{ $total }}
-</div>
+<body class="min-h-screen flex align-middle justify-center">
+<livewire:donations-widget/>
 </body>
 </html>
