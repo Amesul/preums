@@ -19,6 +19,7 @@ class HelloassoToken extends Model
     {
         return [
             'invalidated' => 'boolean',
+            'expires_at' => 'datetime',
         ];
     }
 
