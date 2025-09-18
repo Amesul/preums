@@ -26,10 +26,10 @@ class Donation extends Model
         ];
     }
 
-    protected function amount(): Attribute
+    protected function formattedAmount(): Attribute
     {
         return Attribute::make(
-            get: fn(int $value) => $value / 100,
+            get: fn() => $this->amount / 100 . '€',
         );
     }
 
