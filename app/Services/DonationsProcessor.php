@@ -45,10 +45,10 @@ class DonationsProcessor extends Controller
             if (array_key_exists('customFields', $donation['items'][0])) {
                 foreach ($donation['items'][0]['customFields'] as $field) {
                     switch($field['id']) {
-                        case '6062':
+                        case '6237146':
                             $username = $field['answer'];
                             break;
-                        case '6063':
+                        case '6237147':
                             $message = $field['answer'];
                             break;
                     }
@@ -87,26 +87,24 @@ class DonationsProcessor extends Controller
         }
 
         $res = Http::withToken($token?->access_token)
-                   ->get(config('helloasso.api_base_url') . '/organizations/capgame/forms/Donation/1/orders', [
+                   ->get(config('helloasso.api_base_url') . '/organizations/capgame/forms/Donation/2/orders', [
                        'pageIndex'         => 1,
                        "pageSize"          => 10,
                        "withCount"         => "false",
                        "withDetails"       => "true",
                        'continuationToken' => $continuationToken ?? ''
                    ]);
-        if ($res->status() !== 200 && $res->status() !== 401) {
-            throw new ConnectionException($res->getReasonPhrase(), $res->status());
-        }
-
-        if ($res->status() === 401) {
+        $donations = [];
+        if ($res->status() === 200) {
+            $res = $res->json();
+            $continuationToken = $res["pagination"]["continuationToken"];
+            $donations = $res["data"];
+        } elseif ($res->status() === 401) {
             HelloAsso::refreshToken();
             self::fetch();
+        } else {
+            throw new ConnectionException($res->getReasonPhrase(), $res->status());
         }
-
-        $res = $res->json();
-        $continuationToken = $res["pagination"]["continuationToken"];
-        $donations = $res["data"];
-
         return [
             "donations"          => $donations,
             "continuation_token" => $continuationToken
