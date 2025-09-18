@@ -76,15 +76,16 @@ class DonationsProcessor extends Controller
      */
     public static function fetch(string $continuationToken = null): array
     {
-        $token = HelloassoToken::where('invalidated', false)
+        $token = HelloassoToken::all()
                                ->first();
 
         if (!$token) {
             $token = HelloAsso::getToken();
         }
-        if (now()->lessThan($token->expires_at->subSeconds(30))) {
+        if (now()->greaterThan($token->expires_at->subSeconds(30))) {
             $token = HelloAsso::refreshToken();
         }
+
         $res = Http::withToken($token?->access_token)
                    ->get(config('helloasso.api_base_url') . '/organizations/capgame/forms/Donation/1/orders', [
                        'pageIndex'         => 1,
@@ -103,7 +104,6 @@ class DonationsProcessor extends Controller
         }
 
         $res = $res->json();
-        dump($res, $res['pagination']);
         $continuationToken = $res["pagination"]["continuationToken"];
         $donations = $res["data"];
 
