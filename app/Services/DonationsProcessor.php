@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Services;
 
 use App\Http\Controllers\Controller;
 use App\Models\Donation;
@@ -16,7 +16,8 @@ class DonationsProcessor extends Controller
      */
     public static function store($fetchedDonations, $token): void
     {
-        $latestDonation = donation::orderBy('timestamp', 'desc')->first();
+        $latestDonation = donation::orderBy('timestamp', 'desc')
+                                  ->first();
         $newDonations = new Collection();
         self::processFetchedDonations($fetchedDonations, $latestDonation, $newDonations, $token);
         foreach ($newDonations as $donation) {
@@ -43,7 +44,7 @@ class DonationsProcessor extends Controller
 
             if (array_key_exists('customFields', $donation['items'][0])) {
                 foreach ($donation['items'][0]['customFields'] as $field) {
-                    switch ($field['id']) {
+                    switch($field['id']) {
                         case '6062':
                             $username = $field['answer'];
                             break;
@@ -54,11 +55,11 @@ class DonationsProcessor extends Controller
                 }
             }
             $newDonations->push([
-                'id' => $donation['id'],
+                'id'        => $donation['id'],
                 'timestamp' => strtotime($donation['date']),
-                'username' => $username,
-                'message' => $message,
-                'amount' => $donation['amount']['total'],
+                'username'  => $username,
+                'message'   => $message,
+                'amount'    => $donation['amount']['total'],
                 'processed' => false
             ]);
             if (count($fetchedDonations) === $index) {
@@ -75,25 +76,25 @@ class DonationsProcessor extends Controller
      */
     public static function fetch(string $continuationToken = null): array
     {
-        $token = HelloassoToken::where('invalidated', false)->first();
+        $token = HelloassoToken::where('invalidated', false)
+                               ->first();
 
         if (!$token) {
             $token = HelloAsso::getToken();
         }
-
+        if (now()->lessThan($token->expires_at->subSeconds(30))) {
+            $token = HelloAsso::refreshToken();
+        }
         $res = Http::withToken($token?->access_token)
-            ->get(config('helloasso.api_base_url') . '/organizations/capgame/forms/Donation/1/orders',
-                [
-                    'pageIndex' => 1,
-                    "pageSize" => 4,
-                    "withCount" => "false",
-                    "withDetails" => "true",
-                    'continuationToken' => $continuationToken ?? ''
-                ]
-            );
-
+                   ->get(config('helloasso.api_base_url') . '/organizations/capgame/forms/Donation/1/orders', [
+                       'pageIndex'         => 1,
+                       "pageSize"          => 10,
+                       "withCount"         => "false",
+                       "withDetails"       => "true",
+                       'continuationToken' => $continuationToken ?? ''
+                   ]);
         if ($res->status() !== 200 && $res->status() !== 401) {
-            throw new ConnectionException();
+            throw new ConnectionException($res->getReasonPhrase(), $res->status());
         }
 
         if ($res->status() === 401) {
@@ -102,11 +103,12 @@ class DonationsProcessor extends Controller
         }
 
         $res = $res->json();
+        dump($res, $res['pagination']);
         $continuationToken = $res["pagination"]["continuationToken"];
         $donations = $res["data"];
 
         return [
-            "donations" => $donations,
+            "donations"          => $donations,
             "continuation_token" => $continuationToken
         ];
     }
