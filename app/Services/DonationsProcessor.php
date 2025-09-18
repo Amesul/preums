@@ -74,7 +74,7 @@ class DonationsProcessor extends Controller
     /**
      * @throws ConnectionException
      */
-    public static function fetch(?string $continuationToken): array
+    public static function fetch(?string $continuationToken = null): array
     {
         $token = HelloassoToken::all()
                                ->first();
