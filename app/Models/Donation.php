@@ -22,21 +22,18 @@ class Donation extends Model
         return [
             'timestamp' => 'timestamp',
             'processed' => 'boolean',
-            'amount' => 'integer',
+            'amount'    => 'integer',
         ];
     }
 
     protected function formattedAmount(): Attribute
     {
-        return Attribute::make(
-            get: fn() => $this->amount / 100 . '€',
-        );
+        return Attribute::make(get: fn() => $this->amount / 100 . '€');
     }
 
     protected function timestamp()
     {
-        return Attribute::make(
-            get: fn($value) => Carbon::parse($value)->format('d H:i'),
-        );
+        return Attribute::make(get: fn($value) => Carbon::parse($value)
+                                                        ->format('d H:i'));
     }
 }
