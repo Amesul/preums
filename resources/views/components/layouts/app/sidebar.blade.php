@@ -20,7 +20,7 @@
     </a>
 
     <flux:navlist variant="outline">
-        <flux:navlist.group :heading="__('Platform')" class="grid">
+        <flux:navlist.group :heading="__('Platform')" class="grid gap-2">
             <flux:navlist.item
                     icon="home"
                     :href="route('dashboard')"
@@ -43,12 +43,23 @@
     <flux:spacer />
 
     <!-- Desktop User Menu -->
-    <div class="w-full">
-        <flux:menu.radio.group>
-            <div class="p-0 text-sm font-normal">
-                <div
-                        class="flex items-center gap-2 px-1 py-1.5 text-start text-sm"
-                >
+    <flux:dropdown
+            class="hidden lg:block"
+            position="bottom"
+            align="start"
+    >
+        <flux:profile
+                :name="auth()->user()->name"
+                :initials="auth()->user()->initials()"
+                icon:trailing="chevrons-up-down"
+        />
+
+        <flux:menu class="w-[220px]">
+            <flux:menu.radio.group>
+                <div class="p-0 text-sm font-normal">
+                    <div
+                            class="flex items-center gap-2 px-1 py-1.5 text-start text-sm"
+                    >
                                 <span
                                         class="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-lg"
                                 >
@@ -59,51 +70,51 @@
                                     </span>
                                 </span>
 
-                    <div
-                            class="grid flex-1 text-start text-sm leading-tight"
-                    >
+                        <div
+                                class="grid flex-1 text-start text-sm leading-tight"
+                        >
                                     <span class="truncate font-semibold">
                                         {{ auth()->user()->name }}
                                     </span>
-                        <span class="truncate text-xs">
+                            <span class="truncate text-xs">
                                         {{ auth()->user()->email }}
                                     </span>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </flux:menu.radio.group>
+            </flux:menu.radio.group>
 
-        <flux:menu.separator />
+            <flux:menu.separator />
 
-        <flux:menu.radio.group>
-            <flux:menu.item
-                    :href="route('settings.profile')"
-                    icon="cog"
-                    wire:navigate
-                    class="dark:hover:bg-zinc-100/10 hover:bg-zinc-800/15"
-            >
-                {{ __("Settings") }}
-            </flux:menu.item>
-        </flux:menu.radio.group>
+            <flux:menu.radio.group>
+                <flux:menu.item
+                        :href="route('settings.profile')"
+                        icon="cog"
+                        wire:navigate
+                >
+                    {{ __("Settings") }}
+                </flux:menu.item>
+            </flux:menu.radio.group>
 
-        <flux:menu.separator />
+            <flux:menu.separator />
 
-        <form
-                method="POST"
-                action="{{ route("logout") }}"
-                class="w-full hover:bg-red-500/25 rounded-md"
-        >
-            @csrf
-            <flux:menu.item
-                    as="button"
-                    type="submit"
-                    icon="arrow-right-start-on-rectangle"
+            <form
+                    method="POST"
+                    action="{{ route("logout") }}"
                     class="w-full"
             >
-                {{ __("Log Out") }}
-            </flux:menu.item>
-        </form>
-    </div>
+                @csrf
+                <flux:menu.item
+                        as="button"
+                        type="submit"
+                        icon="arrow-right-start-on-rectangle"
+                        class="w-full"
+                >
+                    {{ __("Log Out") }}
+                </flux:menu.item>
+            </form>
+        </flux:menu>
+    </flux:dropdown>
 </flux:sidebar>
 
 <!-- Mobile User Menu -->
