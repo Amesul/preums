@@ -31,9 +31,15 @@ class Donation extends Model
         return Attribute::make(get: fn() => $this->amount / 100 . '€');
     }
 
-    protected function timestamp()
+
+    protected function timestamp(): Attribute
     {
-        return Attribute::make(get: fn($value) => Carbon::parse($value)
-                                                        ->format('d H:i'));
+        return Attribute::make(
+            get: fn($value) => Carbon::parse($value)
+                                     ->format('d H:i'),
+            set: fn($value) => Carbon::parse($value)
+                                     ->format('Y-m-d H:i:s')
+        );
     }
+
 }
