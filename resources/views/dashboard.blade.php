@@ -30,8 +30,6 @@
                     </h1>
                     <p>{{ Session::get('auto_refresh', true) ? 'Activé' : 'Désactivé' }}</p>
                 </div>
-
-
             </div>
         </div>
         <div class="relative w-full flex-1 shrink-0">
