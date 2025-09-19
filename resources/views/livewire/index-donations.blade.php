@@ -63,7 +63,7 @@
                         >
                             <td
                                     wire:click="processDonation({{ $donation->id }})"
-                                    class="w-content {{ $donation->processed ? "text-gray-600/50 dark:text-neutral-400/50" : "text-gray-600 dark:text-gray-400" }} relative z-0 h-full border-b border-gray-200 py-3 pr-3 pl-4 text-xs whitespace-nowrap sm:pl-6 lg:pl-8 dark:border-white/10"
+                                    class="w-content {{ $donation->processed ? "text-gray-500/55 dark:text-neutral-300/50" : "text-gray-400 dark:text-gray-400" }} relative z-0 h-full border-b border-gray-200 py-3 pr-3 pl-4 text-xs whitespace-nowrap sm:pl-6 lg:pl-8 dark:border-white/10"
                             >
                                 {{ $formattedDate }}
                                 <div
