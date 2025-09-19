@@ -1,6 +1,7 @@
 @php
     use Illuminate\Support\Facades\Session;
 @endphp
+
 <x-layouts.app :title="__('Dashboard')">
     <div class="flex h-full w-full flex-1 grow flex-col gap-4 rounded-xl">
         <div class="grid shrink-0 auto-rows-min gap-4 md:grid-cols-4">
@@ -28,13 +29,15 @@
                     >
                         Rafraichissement automatique
                     </h1>
-                    <p>{{ Session::get('auto_refresh', true) ? 'Activé' : 'Désactivé' }}</p>
+                    <p>
+                        {{ Session::get("auto_refresh", true) ? "Activé" : "Désactivé" }}
+                    </p>
                 </div>
             </div>
         </div>
         <div class="relative w-full flex-1 shrink-0">
             <div
-                    class="absolute hidden h-full w-full overflow-y-scroll rounded-xl border border-neutral-400 md:block dark:border-neutral-600"
+                    class="scrollbar-thumb-only absolute hidden h-full w-full overflow-y-auto rounded-xl border border-neutral-400 md:block dark:border-neutral-600"
             >
                 <livewire:index-donations />
             </div>

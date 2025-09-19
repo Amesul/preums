@@ -9,10 +9,9 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-    --font-sans:
-        "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
-        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
-        "Noto Color Emoji";
+    --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji";
 
     --font-cabin-sketch: "Cabin Sketch", sans-serif;
 
@@ -68,3 +67,34 @@ select:focus[data-flux-control] {
 /* \[:where(&)\]:size-4 {
     @apply size-4;
 } */
+
+@layer utilities {
+    .scrollbar-thumb-only {
+        /* Firefox */
+        scrollbar-width: thin;
+        scrollbar-color: theme('colors.teal.600') transparent;
+    }
+
+    .dark .scrollbar-thumb-only {
+        scrollbar-color: theme('colors.teal.300') transparent;
+    }
+
+    /* Chrome, Edge, Safari */
+    .scrollbar-thumb-only::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    .scrollbar-thumb-only::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .scrollbar-thumb-only::-webkit-scrollbar-thumb {
+        background-color: theme('colors.teal.600');
+        border-radius: 9999px;
+    }
+
+    .dark .scrollbar-thumb-only::-webkit-scrollbar-thumb {
+        background-color: theme('colors.teal.300');
+    }
+}
