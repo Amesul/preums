@@ -36,7 +36,7 @@ class Donation extends Model
     {
         return Attribute::make(
             get: fn($value) => Carbon::parse($value)
-                                     ->format('d H:i'),
+                                     ->format('Y-m-d H:i:s'),
             set: fn($value) => Carbon::parse($value)
                                      ->format('Y-m-d H:i:s')
         );
