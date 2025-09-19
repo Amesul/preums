@@ -18,7 +18,7 @@
                     <span
                             class="mb-1 flex h-9 w-9 items-center justify-center rounded-md"
                     >
-                        <img src="{{ url('./storage/images/insigne_preums.png') }}" alt="Logo" class="size-9>
+                        <img src="{{ url('./storage/images/insigne_preums.png') }}" alt="Logo" class="size-9">
                     </span>
                     <span class=" sr-only">
                         {{ config("app.name", "Laravel") }}
