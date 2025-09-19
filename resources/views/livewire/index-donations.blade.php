@@ -19,19 +19,19 @@
                         </th>
                         <th
                                 scope="col"
-                                class="dark:border-wh2te/10 sticky top-0 z-10 border-b border-gray-300 bg-teal-700 px-3 py-3.5 text-center text-sm font-semibold text-gray-200 backdrop-blur-sm backdrop-brightness-90 sm:table-cell dark:bg-teal-300 dark:text-neutral-900"
+                                class="dark:border-wh2te/10 sticky top-0 z-10 border-b border-gray-300 bg-teal-700 px-2 py-3.5 text-center text-sm font-semibold text-gray-200 backdrop-blur-sm backdrop-brightness-90 sm:table-cell dark:bg-teal-300 dark:text-neutral-900"
                         >
                             Pseudo
                         </th>
                         <th
                                 scope="col"
-                                class="dark:border-wh2te/10 sticky top-0 z-10 border-b border-gray-300 bg-teal-700 px-3 py-3.5 text-center text-sm font-semibold text-gray-200 backdrop-blur-sm backdrop-brightness-90 lg:table-cell dark:bg-teal-300 dark:text-neutral-900"
+                                class="dark:border-wh2te/10 sticky top-0 z-10 border-b border-gray-300 bg-teal-700 px-2 py-3.5 text-center text-sm font-semibold text-gray-200 backdrop-blur-sm backdrop-brightness-90 lg:table-cell dark:bg-teal-300 dark:text-neutral-900"
                         >
                             Montant
                         </th>
                         <th
                                 scope="col"
-                                class="sm dark:border-wh2te/10 sticky top-0 z-10 border-b border-gray-300 bg-teal-700 px-3 py-3.5 text-center text-sm font-semibold text-gray-200 backdrop-blur-sm backdrop-brightness-90 dark:bg-teal-300 dark:text-neutral-900"
+                                class="sm dark:border-wh2te/10 sticky top-0 z-10 border-b border-gray-300 bg-teal-700 px-2 py-3.5 text-center text-sm font-semibold text-gray-200 backdrop-blur-sm backdrop-brightness-90 dark:bg-teal-300 dark:text-neutral-900"
                         >
                             Message
                         </th>
@@ -54,15 +54,16 @@
                             if (now()->subHours(3) > $date) {
                                 $formattedDate = $date->translatedFormat("D \à H:i");
                             } else {
-                                $formattedDate=$date->diffForHumans();
+                                $formattedDate = $date->diffForHumans();
                             }
                         @endphp
+
                         <tr
                                 class="{{ $donation->processed ? "" : "hover:bg-gray-300/20 dark:hover:bg-gray-300/10" }} transition"
                         >
                             <td
                                     wire:click="processDonation({{ $donation->id }})"
-                                    class="w-content {{ $donation->processed ? "text-gray-600/50 dark:text-neutral-200/50" : "text-gray-600 dark:text-gray-200" }} relative z-0 h-full border-b border-gray-200 py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap sm:pl-6 lg:pl-8 dark:border-white/10"
+                                    class="w-content {{ $donation->processed ? "text-gray-600/50 dark:text-neutral-400/50" : "text-gray-600 dark:text-gray-400" }} relative z-0 h-full border-b border-gray-200 py-3 pr-3 pl-4 text-xs whitespace-nowrap sm:pl-6 lg:pl-8 dark:border-white/10"
                             >
                                 {{ $formattedDate }}
                                 <div
@@ -71,7 +72,7 @@
                             </td>
                             <td
                                     wire:click="processDonation({{ $donation->id }})"
-                                    class="w-content {{ $donation->processed ? "text-gray-600/50 dark:text-gray-200/50" : "text-gray-600 dark:text-gray-200" }} relative z-0 h-full border-b border-gray-200 px-3 py-4 text-right text-sm whitespace-nowrap sm:table-cell dark:border-white/10"
+                                    class="w-content {{ $donation->processed ? "text-gray-600/50 dark:text-gray-200/50" : "text-gray-600 dark:text-gray-200" }} relative z-0 h-full border-b border-gray-200 px-2 py-3 text-right font-black tracking-wide whitespace-nowrap sm:table-cell dark:border-white/10"
                             >
                                 {{ $donation->username ?? "Anonyme" }}
                                 <div
@@ -80,7 +81,7 @@
                             </td>
                             <td
                                     wire:click="processDonation({{ $donation->id }})"
-                                    class="w-content {{ $donation->processed ? "text-gray-600/50 dark:text-gray-200/50" : "text-gray-600 dark:text-gray-200" }} relative z-0 h-full border-b border-gray-200 px-3 py-4 text-center text-sm whitespace-nowrap lg:table-cell dark:border-white/10"
+                                    class="w-content {{ $donation->processed ? "text-gray-600/50 dark:text-gray-200/50" : "text-gray-600 dark:text-gray-200" }} relative z-0 h-full border-b border-gray-200 px-2 py-3 text-center whitespace-nowrap lg:table-cell dark:border-white/10"
                             >
                                 {{ $donation->formatted_amount }}
                                 <div
@@ -89,7 +90,7 @@
                             </td>
                             <td
                                     wire:click="processDonation({{ $donation->id }})"
-                                    class="w-content {{ $donation->processed ? "text-gray-600/50 dark:text-gray-200/50" : "text-gray-600 dark:text-gray-200" }} relative z-0 h-full border-b border-gray-200 px-3 py-4 text-sm dark:border-white/10"
+                                    class="w-content {{ $donation->processed ? "text-gray-600/50 dark:text-gray-200/50" : "text-gray-600 dark:text-gray-200" }} relative z-0 h-full border-b border-gray-200 px-2 py-3 dark:border-white/10"
                             >
                                 {{ $donation->message }}
                                 <div
@@ -97,7 +98,7 @@
                                 ></div>
                             </td>
                             <td
-                                    class="h-full border-b border-gray-200 py-4 pr-4 pl-3 text-center text-sm font-medium whitespace-nowrap text-gray-600 sm:pr-8 lg:pr-8 dark:border-white/10 dark:text-gray-200"
+                                    class="h-full border-b border-gray-200 py-3 pr-4 pl-3 text-center font-medium whitespace-nowrap text-gray-600 sm:pr-8 lg:pr-8 dark:border-white/10 dark:text-gray-200"
                             >
                                 <flux:button
                                         icon="check-circle"
