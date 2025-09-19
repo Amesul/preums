@@ -7,7 +7,14 @@ use Livewire\Component;
 
 class Pagination extends Component
 {
-    public $perPage = 10;
+    public $perPage;
+
+    public function mount(): void
+    {
+        $this->perPage = auth()
+            ->user()
+            ->pagination_setting->value ?? 20;
+    }
 
     public function render(): View
     {
@@ -16,6 +23,9 @@ class Pagination extends Component
 
     public function save(): void
     {
-        auth()->user()->pagination_setting()->updateOrCreate(['user_id' => auth()->user()->id], ['value' => $this->perPage]);
+        auth()
+            ->user()
+            ->pagination_setting()
+            ->updateOrCreate(['user_id' => auth()->user()->id], ['value' => $this->perPage]);
     }
 }
