@@ -11,7 +11,7 @@
         @csrf
         <!-- Name -->
         <flux:input
-                wire:model="username"
+                wire:model="name"
                 :label="__('Username')"
                 type="text"
                 required
