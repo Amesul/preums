@@ -2,11 +2,10 @@
 
 namespace App\Livewire;
 
-use App\Livewire\Settings\Pagination;
 use App\Models\Donation;
 use App\Services\DonationsProcessor;
 use Illuminate\Http\Client\ConnectionException;
-use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithoutUrlPagination;
@@ -21,17 +20,29 @@ class IndexDonations extends Component
      */
     public function mount(): void
     {
-        $this->processDonations();
+        $this->fetchAndStoreDonations();
     }
 
     /**
      * @return void
      * @throws ConnectionException
      */
-    protected function processDonations(): void
+    protected function fetchAndStoreDonations(): void
     {
-        $data = DonationsProcessor::fetch();
-        DonationsProcessor::store($data['donations'], $data['continuation_token']);
+        $autoRefresh = Session::get('auto_refresh', true);
+
+        if ($autoRefresh) {
+            $data = DonationsProcessor::fetch();
+            DonationsProcessor::store($data['donations'], $data['continuation_token']);
+            $this->broadcastDonationUpdates();
+        }
+    }
+
+    /**
+     * @return void
+     */
+    protected function broadcastDonationUpdates(): void
+    {
         $this->dispatch('fetch-donations')
              ->to(TotalDonations::class);
         $this->dispatch('unprocessed-donation-update')
@@ -63,6 +74,6 @@ class IndexDonations extends Component
      */
     public function refresh(): void
     {
-        $this->processDonations();
+        $this->fetchAndStoreDonations();
     }
 }
