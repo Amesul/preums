@@ -3,7 +3,7 @@
 
 <title>{{ $title ?? config("app.name") }}</title>
 
-<link rel="icon" href="{{ url('./public/favicon.ico') }}" sizes="any" />
+<link rel="icon" href="./favicon.ico" sizes="any" />
 
 <link rel="preconnect" href="https://fonts.bunny.net" />
 <link
