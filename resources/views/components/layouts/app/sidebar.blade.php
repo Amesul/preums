@@ -20,7 +20,7 @@
             </a>
 
             <flux:navlist variant="outline">
-                <flux:navlist.group :heading="__('Platform')" class="grid">
+                <flux:navlist.group :heading="__('Platform')" class="grid gap-2">
                     <flux:navlist.item
                         icon="home"
                         :href="route('dashboard')"
