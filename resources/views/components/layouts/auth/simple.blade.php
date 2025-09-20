@@ -20,7 +20,7 @@
                     >
                         <img src="{{ url('./storage/images/insigne_preums.png') }}" alt="Logo" class="size-9">
                     </span>
-                    <span class=" sr-only">
+            <span class=" sr-only">
                         {{ config("app.name", "Laravel") }}
                     </span>
         </a>
@@ -29,6 +29,7 @@
         </div>
     </div>
 </div>
+@livewireScripts
 @fluxScripts
 </body>
 </html>
