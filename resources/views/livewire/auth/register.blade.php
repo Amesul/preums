@@ -8,7 +8,6 @@
     <x-auth-session-status class="text-center" :status="session('status')" />
 
     <form method="POST" wire:submit="register" class="flex flex-col gap-6">
-        @csrf
         <!-- Name -->
         <flux:input
                 wire:model="name"
