@@ -11,90 +11,90 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: 🚚 Get latest code
-      uses: actions/checkout@v4
-      
-    - name: 🔑 Setup SSH
-      uses: webfactory/ssh-agent@v0.8.0
-      with:
-        ssh-private-key: ${{ secrets.SSH_KEY }}
-        
-    - name: 🚀 Deploy to Server
-      uses: appleboy/ssh-action@v1.0.0
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.SSH_KEY }}
-        script: |
-          echo "🔄 Démarrage du déploiement..."
-          
-          # Navigation vers le répertoire du projet
-          cd /var/www/preums
-          
-          # Mise en mode maintenance
-          echo "🚧 Activation du mode maintenance..."
-          sudo -u www-data php artisan down --render="errors::503" --retry=60 || true
-          
-          # Backup de la base de données (optionnel)
-          echo "💾 Sauvegarde de la base de données..."
-          sudo -u www-data php artisan backup:run --only-db --disable-notifications || true
-          
-          # Récupération des derniers changements
-          echo "📥 Récupération du code..."
-          sudo -u www-data git fetch origin
-          sudo -u www-data git reset --hard origin/main
-          
-          # Installation des dépendances PHP
-          echo "🐘 Installation des dépendances PHP..."
-          sudo -u www-data composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
-          
-          # Installation des dépendances Node.js
-          echo "📦 Installation des dépendances Node.js..."
-          sudo -u www-data npm ci
-          
-          # Build des assets (Tailwind CSS + Vite)
-          echo "🎨 Build des assets (Tailwind + Vite)..."
-          sudo -u www-data npm run build
-          
-          # Optimisations Laravel
-          echo "⚡ Optimisations Laravel..."
-          sudo -u www-data php artisan config:cache
-          sudo -u www-data php artisan route:cache
-          sudo -u www-data php artisan view:cache
-          sudo -u www-data php artisan event:cache
-          
-          # Migrations de base de données
-          echo "🗄️ Exécution des migrations..."
-          sudo -u www-data php artisan migrate --force
-          
-          # Nettoyage du cache applicatif
-          echo "🧹 Nettoyage des caches..."
-          sudo -u www-data php artisan cache:clear
-          
-          # Storage link (si nécessaire)
-          sudo -u www-data php artisan storage:link || true
-          
-          # Rechargement de PHP-FPM/Apache
-          echo "🔄 Rechargement des services web..."
-          sudo systemctl reload php8.3-fpm || sudo systemctl reload php8.2-fpm || sudo systemctl reload php8.1-fpm || true
-          sudo systemctl reload nginx || sudo systemctl reload apache2 || true
-          
-          # Désactivation du mode maintenance
-          echo "✅ Désactivation du mode maintenance..."
-          sudo -u www-data php artisan up
-          
-          # Vérification de la santé de l'application
-          echo "🏥 Vérification de la santé de l'application..."
-          curl -f http://localhost || echo "⚠️ Warning: Health check failed"
-          
-          echo "🎉 Déploiement terminé avec succès !"
-          
-    - name: 🔔 Notification de succès
-      if: success()
-      run: |
-        echo "✅ Déploiement réussi pour le commit ${{ github.sha }}"
-        
-    - name: 🚨 Notification d'échec
-      if: failure()
-      run: |
-        echo "❌ Échec du déploiement pour le commit ${{ github.sha }}"
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v4
+
+      - name: 🔑 Setup SSH
+        uses: webfactory/ssh-agent@v0.8.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_KEY }}
+
+      - name: 🚀 Deploy to Server
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            echo "🔄 Démarrage du déploiement..."
+            
+            # Navigation vers le répertoire du projet
+            cd /var/www/preums
+            
+            # Mise en mode maintenance
+            echo "🚧 Activation du mode maintenance..."
+            sudo -u www-data php artisan down --render="errors::503" --retry=60 --refresh=15 || true
+            
+            # Backup de la base de données (optionnel)
+            echo "💾 Sauvegarde de la base de données..."
+            sudo -u www-data php artisan backup:run --only-db --disable-notifications || true
+            
+            # Récupération des derniers changements
+            echo "📥 Récupération du code..."
+            sudo -u www-data git fetch origin
+            sudo -u www-data git reset --hard origin/main
+            
+            # Installation des dépendances PHP
+            echo "🐘 Installation des dépendances PHP..."
+            sudo -u www-data composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+            
+            # Installation des dépendances Node.js
+            echo "📦 Installation des dépendances Node.js..."
+            sudo -u www-data npm ci
+            
+            # Build des assets (Tailwind CSS + Vite)
+            echo "🎨 Build des assets (Tailwind + Vite)..."
+            sudo -u www-data npm run build
+            
+            # Nettoyage du cache applicatif
+            echo "🧹 Nettoyage des caches..."
+            sudo -u www-data php artisan cache:clear
+            
+            # Optimisations Laravel
+            echo "⚡ Optimisations Laravel..."
+            sudo -u www-data php artisan config:cache
+            sudo -u www-data php artisan route:cache
+            sudo -u www-data php artisan view:cache
+            sudo -u www-data php artisan event:cache
+            
+            # Migrations de base de données
+            echo "🗄️ Exécution des migrations..."
+            sudo -u www-data php artisan migrate --force
+            
+            # Storage link (si nécessaire)
+            sudo -u www-data php artisan storage:link || true
+            
+            # Rechargement de PHP-FPM/Apache
+            echo "🔄 Rechargement des services web..."
+            sudo systemctl reload php8.3-fpm || sudo systemctl reload php8.2-fpm || sudo systemctl reload php8.1-fpm || true
+            sudo systemctl reload nginx || sudo systemctl reload apache2 || true
+            
+            # Désactivation du mode maintenance
+            echo "✅ Désactivation du mode maintenance..."
+            sudo -u www-data php artisan up
+            
+            # Vérification de la santé de l'application
+            echo "🏥 Vérification de la santé de l'application..."
+            curl -f http://localhost || echo "⚠️ Warning: Health check failed"
+            
+            echo "🎉 Déploiement terminé avec succès !"
+
+      - name: 🔔 Notification de succès
+        if: success()
+        run: |
+          echo "✅ Déploiement réussi pour le commit ${{ github.sha }}"
+
+      - name: 🚨 Notification d'échec
+        if: failure()
+        run: |
+          echo "❌ Échec du déploiement pour le commit ${{ github.sha }}"
