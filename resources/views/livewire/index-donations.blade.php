@@ -51,10 +51,10 @@
                     @foreach ($donations as $donation)
                         @php
                             $date = Carbon::parse($donation->timestamp);
-                            if (now()->subHours(3) > $date) {
+                            if (now()->subHours(1) > $date) {
                                 $formattedDate = $date->translatedFormat("D \à H:i");
                             } else {
-                                $formattedDate = $date->diffForHumans();
+                                $formattedDate = $date->subHours(2)->diffForHumans();
                             }
                         @endphp
 
